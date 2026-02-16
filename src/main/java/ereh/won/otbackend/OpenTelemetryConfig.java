@@ -52,16 +52,16 @@ public class OpenTelemetryConfig {
                 );
     }
 
-    @Bean
+    @Bean(name = "backendOpenTelemetry")
     public OpenTelemetry openTelemetry(Resource resource) {
         // OtlpHttpSpanExporter is used to export traces to an OpenTelemetry collector
-        log.info("Traces Endpoint = " + tracesOtlpEndpoint);
+        log.info("Traces Endpoint = {}", tracesOtlpEndpoint);
         OtlpHttpSpanExporter traceHttpSpanExporter = OtlpHttpSpanExporter.builder()
                 .setEndpoint(tracesOtlpEndpoint)
                 .build();
 
         // OtlpHttpMetricExporter is used to export metrics to an OpenTelemetry collector
-        log.info("Metrics Endpoint = " + metricsOtlpEndpoint);
+        log.info("Metrics Endpoint = {}", metricsOtlpEndpoint);
         OtlpHttpMetricExporter metricExporter = OtlpHttpMetricExporter.builder()
                 .setEndpoint(metricsOtlpEndpoint)
                 .build();
@@ -78,7 +78,7 @@ public class OpenTelemetryConfig {
                 .setResource(resource)
                 .build();
 
-        log.info("Logs Endpoint = " + logsOtlpEndpoint);
+        log.info("Logs Endpoint = {}", logsOtlpEndpoint);
         LogRecordExporter logRecordExporter = OtlpHttpLogRecordExporter.builder()
                 .setEndpoint(logsOtlpEndpoint)
                 .build();

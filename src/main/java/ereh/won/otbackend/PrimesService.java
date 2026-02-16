@@ -9,6 +9,8 @@ import io.opentelemetry.instrumentation.annotations.WithSpan;
 import lombok.extern.java.Log;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Optional;
 
 @Service
@@ -37,6 +39,7 @@ public class PrimesService {
         }
 
         serviceMetrics.recordRequest(GET_PRIME_ENDPOINT);
+        Instant requestStart = Instant.now();
         PrimeCacheKey cacheKey = new PrimeCacheKey(primePosition);
         Optional<Integer> cached;
         try {
@@ -49,6 +52,7 @@ public class PrimesService {
 
         if (cached.isPresent()) {
             cacheMetrics.record("get", "hit");
+            serviceMetrics.recordResponseTime(GET_PRIME_ENDPOINT, requestStart.until(Instant.now(), ChronoUnit.MILLIS));
             return cached.get();
         }
 

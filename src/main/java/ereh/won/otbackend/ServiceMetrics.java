@@ -5,6 +5,7 @@ import io.opentelemetry.api.common.Attributes;
 import io.opentelemetry.api.metrics.DoubleHistogram;
 import io.opentelemetry.api.metrics.LongCounter;
 import io.opentelemetry.api.metrics.Meter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -13,7 +14,7 @@ public class ServiceMetrics {
     private final LongCounter errorCounter;
     private final DoubleHistogram responseTimeHistogram;
 
-    public ServiceMetrics(OpenTelemetry openTelemetry) {
+    public ServiceMetrics(@Qualifier("backendOpenTelemetry") OpenTelemetry openTelemetry) {
         // Create a Meter instance for the order service
         Meter meter = openTelemetry.getMeter("primes_service");
 
