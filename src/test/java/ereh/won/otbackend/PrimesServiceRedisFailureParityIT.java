@@ -4,7 +4,6 @@ import ereh.won.otbackend.cache.CacheMetrics;
 import ereh.won.otbackend.cache.PrimeCache;
 import ereh.won.otbackend.cache.PrimeCacheProperties;
 import ereh.won.otbackend.cache.PrimeCacheSelection;
-import io.opentelemetry.api.OpenTelemetry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,14 +27,14 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 
 /**
  * Failure parity integration test for REDIS-backed PrimesService.
- * 
+ * <p>
  * Implements PrimesServiceFailureParityContract to verify that when the REDIS
  * cache backend experiences failures (or is unavailable), the PrimesService
  * exhibits the same graceful degradation behavior as other backends.
- * 
+ * <p>
  * Uses Testcontainers Redis to run real Redis for production-accurate testing.
  * Asserts effective backend is REDIS to prevent false-positive results.
- * 
+ * <p>
  * This test addresses OPS-03: "Cache failure paths behave equivalently across backends."
  */
 @Testcontainers
@@ -58,9 +57,6 @@ class PrimesServiceRedisFailureParityIT implements PrimesServiceFailureParityCon
 
 	@Autowired
 	private ServiceMetrics serviceMetrics;
-
-	@Autowired
-	private OpenTelemetry openTelemetry;
 
 	@Autowired
 	private PrimeCacheSelection cacheSelection;
@@ -108,6 +104,6 @@ class PrimesServiceRedisFailureParityIT implements PrimesServiceFailureParityCon
 
 	@Override
 	public PrimesService primesService() {
-		return new PrimesService(serviceMetrics, primeCache, cacheMetrics, openTelemetry);
+		return new PrimesService(serviceMetrics, primeCache, cacheMetrics);
 	}
 }

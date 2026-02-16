@@ -3,7 +3,6 @@ package ereh.won.otbackend;
 import ereh.won.otbackend.cache.CacheMetrics;
 import ereh.won.otbackend.cache.PrimeCache;
 import ereh.won.otbackend.cache.PrimeCacheKey;
-import io.opentelemetry.api.OpenTelemetry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +18,7 @@ import static org.mockito.Mockito.when;
 
 /**
  * Integration test proving graceful degradation at the service level when cache fails.
- *
+ * <p>
  * This verifies OPS-01 (resilience) at the integration level: service returns correct
  * computed primes even when cache operations fail.
  */
@@ -37,13 +36,10 @@ class PrimesServiceCacheFailureIT {
 	@Mock
 	private ServiceMetrics serviceMetrics;
 
-	@Mock
-	private OpenTelemetry openTelemetry;
-
 	@BeforeEach
 	void setUp() {
 		// Initialize service with mocked dependencies
-		primesService = new PrimesService(serviceMetrics, primeCache, cacheMetrics, openTelemetry);
+		primesService = new PrimesService(serviceMetrics, primeCache, cacheMetrics);
 	}
 
 	@Test
