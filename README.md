@@ -1,5 +1,7 @@
 # OpenTelemetry Backend
 
+[![Java CI with Maven](https://github.com/alapite/primes-backend/actions/workflows/maven.yml/badge.svg)](https://github.com/alapite/primes-backend/actions/workflows/maven.yml)
+
 Spring Boot backend service for prime-number lookup with pluggable cache backends and end-to-end observability (traces, metrics, logs) via OpenTelemetry. The functionality of the service has been intentionally kept minimal in order to keep the focus on the observability aspect. This service is intended to be just one component of an end-to-end deployment illustrating how traces generated in a frontend are propagated all the way to Prometheus, from which the resulting data is then exported to
 another service focused on analysing time-series and creating alerts.
 
