@@ -1,0 +1,45 @@
+# Maven
+target/
+!target/*.jar
+*.war
+
+# OpenTelemetry agent (keep it)
+!opentelemetry-javaagent.jar
+
+# IDE
+.idea/
+.vscode/
+*.iml
+.eclipse/
+.settings/
+.project
+.classpath
+
+# Git
+.git/
+.gitignore
+.gitattributes
+
+# CI/CD
+.github/
+
+# Documentation
+*.md
+!README.md
+AGENTS.md
+
+# Logs
+*.log
+
+# Docker
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Test files
+src/test/
+
+# Build artifacts
+!mvnw
+!mvnw.cmd
+!.mvn/

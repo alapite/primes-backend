@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>ereh.won</groupId>
 	<artifactId>opentelemetry-backend</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.1-SNAPSHOT</version>
 	<name>opentelemetry-backend</name>
 	<description>A Spring Boot project demonstrating OpenTelemetry usage</description>
 	<url/>
