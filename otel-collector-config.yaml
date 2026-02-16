@@ -1,0 +1,49 @@
+receivers:
+  otlp:
+    protocols:
+      grpc: # listens on 4317 , optional and good for traces
+        endpoint: "0.0.0.0:4317"
+      http: # listens on 4318 , required for metrics via OTLP/HTTP (port 4318) , it uses the default endpoint: 0.0.0.0:4318, which listens on all interfaces — meaning it's accessible from inside Docker and other hosts as well.
+        endpoint: "0.0.0.0:4318"
+        # recommended especially if you’re using docker for the collector and your app is outside Docker.
+        cors:
+          allowed_origins:
+            - "http://*"
+            - "https://*"
+
+exporters:
+  prometheus:
+    endpoint: "0.0.0.0:8889"
+  otlp:
+    endpoint: "jaeger:4317"
+    tls:
+      insecure: true
+  debug:
+    verbosity: detailed       # Logs incoming metrics and traces , Add debug exporter in your Collector config to visually verify metrics
+    # Then when you run the collector, it will log received metrics to the console.
+
+processors:
+  batch:
+  memory_limiter:
+    check_interval: 1s
+    limit_mib: 6000
+    spike_limit_mib: 1200
+
+extensions:
+  health_check:
+
+service:
+  extensions: [health_check]
+  pipelines:
+    metrics:
+      processors: [memory_limiter, batch]
+      receivers: [otlp]
+      exporters: [prometheus, debug]
+    traces:
+      processors: [memory_limiter, batch]
+      receivers: [otlp]
+      exporters: [otlp, debug]
+    logs:
+      receivers: [otlp]
+      processors: [memory_limiter, batch]
+      exporters: [debug]

@@ -1,0 +1,71 @@
+services:
+  jaeger-v2:
+    image: jaegertracing/jaeger:2.9.0
+    container_name: jaeger
+    ports:
+      - "16686:16686"
+    networks:
+      - otel-network
+
+  prometheus:
+    image: prom/prometheus:v3.5.0
+    container_name: prometheus
+    command:
+      - --web.console.templates=/etc/prometheus/consoles
+      - --web.console.libraries=/etc/prometheus/console_libraries
+      - --storage.tsdb.retention.time=1h
+      - --config.file=/etc/prometheus/prometheus.yml
+      - --storage.tsdb.path=/prometheus
+      - --web.enable-lifecycle
+      - --web.route-prefix=/
+      - --web.enable-otlp-receiver
+      - --enable-feature=exemplar-storage
+    volumes:
+      - "./prometheus.yml:/etc/prometheus/prometheus.yml"
+    ports:
+      - "9090:9090"
+    networks:
+      - otel-network
+
+  otel-collector:
+    image: otel/opentelemetry-collector-contrib:0.134.1
+    container_name: otel-collector
+    expose:
+      - "4317"
+      - "4318"
+    ports:
+      - "4317:4317"  # OTLP gRPC endpoint
+      - "4318:4318"  # OTLP HTTP endpoint
+      - "8889:8889"  # Prometheus scrape endpoint
+    depends_on:
+      - jaeger-v2
+      - prometheus
+    volumes:
+      - ./otel-collector-config.yaml:/etc/otelcol-contrib/config.yaml  # Bind mount your config
+    networks:
+      - otel-network
+
+  primes-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: primes_service:latest
+    environment:
+      MANAGEMENT_OTLP_TRACING_ENDPOINT: http://otel-collector:4318/v1/traces
+      MANAGEMENT_TRACING_SAMPLING_PROBABILITY: 1.0
+      OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4318
+      OTEL_LOGS_EXPORTER: debug
+      OTEL_SERVICE_NAME: abiola-primes-backend
+      SPRING_APPLICATION_NAME: abiola-primes-backend
+    depends_on:
+      otel-collector:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    networks:
+      - otel-network
+
+
+networks:
+  otel-network:
+    driver: bridge
