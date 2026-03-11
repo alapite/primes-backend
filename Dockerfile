@@ -32,5 +32,7 @@ ENTRYPOINT ["java", \
     "-javaagent:/app/opentelemetry-javaagent.jar", \
     "-Dspring.profiles.active=prod", \
     "-XX:+UseCompactObjectHeaders", \
+    "-XX:+UseShenandoahGC", \
+    "-XX:ShenandoahGCMode=generational", \
     "-jar", \
     "app.jar"]
