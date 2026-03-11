@@ -31,4 +31,6 @@ HEALTHCHECK --interval=30s --timeout=3s --start-period=40s --retries=3 \
 ENTRYPOINT ["java", \
     "-javaagent:/app/opentelemetry-javaagent.jar", \
     "-Dspring.profiles.active=prod", \
-    "-jar", "app.jar"]
+    "-XX:+UseCompactObjectHeaders", \
+    "-jar", \
+    "app.jar"]
