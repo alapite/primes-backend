@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.2</version>
+		<version>4.0.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>ereh.won</groupId>
@@ -29,7 +29,6 @@
 	<properties>
 		<java.version>25</java.version>
         <testcontainers.version>1.21.4</testcontainers.version>
-        <spring-boot.version>4.0.3</spring-boot.version>
     </properties>
 
     <dependencies>
@@ -37,25 +36,22 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-            <version>${spring-boot.version}</version>
 		</dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
-            <version>3.5.11</version>
+            <version>3.5.12</version>
         </dependency>
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
-            <version>${spring-boot.version}</version>
 			<optional>true</optional>
 		</dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
 
         <!--<dependency>
@@ -100,7 +96,7 @@
         <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
             <artifactId>opentelemetry-spring-boot-starter</artifactId>
-            <version>2.25.0</version>
+            <version>2.26.0</version>
         </dependency>
 
         <dependency>
@@ -122,7 +118,6 @@
         <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
-            <version>${spring-boot.version}</version>
 			<scope>test</scope>
             <exclusions>
                 <exclusion>
@@ -139,7 +134,7 @@
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-junit-jupiter</artifactId>
-            <version>5.22.0</version>
+            <version>5.23.0</version>
             <scope>test</scope>
         </dependency>
 
@@ -147,14 +142,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
 
         <!-- PostgreSQL -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-jdbc</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
@@ -255,7 +248,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
 				<configuration>
                     <jvmArguments>
                         -Dspring.application.admin.enabled=true
